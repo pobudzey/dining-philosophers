@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Class Monitor
@@ -16,6 +18,7 @@ public class Monitor
 	private final int numberOfPhilosophers;
 	private enum States {THINKING, EATING, HUNGRY}
 	private States[] state;
+	private Queue<Integer> queue;
 
 	/**
 	 * Constructor
@@ -26,6 +29,7 @@ public class Monitor
 		state = new States[numberOfPhilosophers];
 		// Initially, all philosophers are thinking
 		Arrays.fill(state, States.THINKING);
+		queue = new LinkedList<>();
 	}
 
 	/*
@@ -44,11 +48,13 @@ public class Monitor
 		final int i = piTID - 1;
 
 		state[i] = States.HUNGRY;
+		queue.add(i);
 		while (!canEat(i))
 		{
 			wait();
 		}
 		state[i] = States.EATING;
+		queue.poll();
 	}
 
 	/**
@@ -96,7 +102,8 @@ public class Monitor
 	{
 		return state[i] == States.HUNGRY
 				&& state[leftNeighbor(i)] != States.EATING
-				&& state[rightNeighbor(i)] != States.EATING;
+				&& state[rightNeighbor(i)] != States.EATING
+				&& queue.peek().equals(i);
 	}
 }
 

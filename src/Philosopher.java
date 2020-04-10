@@ -110,9 +110,13 @@ public class Philosopher extends BaseThread
 			 */
 			if(RANDOM.nextBoolean())
 			{
-				DiningPhilosophers.soMonitor.requestTalk();
+				try {
+					DiningPhilosophers.soMonitor.requestTalk(getTID());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				talk();
-				DiningPhilosophers.soMonitor.endTalk();
+				DiningPhilosophers.soMonitor.endTalk(getTID());
 			}
 
 			yield();

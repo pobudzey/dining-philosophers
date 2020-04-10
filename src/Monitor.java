@@ -56,6 +56,7 @@ public class Monitor
 			wait();
 		}
 		state[i] = States.EATING;
+		// Remove the philosopher at the front of the queue
 		queue.poll();
 	}
 

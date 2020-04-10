@@ -1,5 +1,7 @@
 import common.BaseThread;
 
+import java.util.Random;
+
 /**
  * Class Philosopher.
  * Outlines main subroutines of our virtual philosopher.
@@ -12,6 +14,7 @@ public class Philosopher extends BaseThread
 	 * Max time an action can take (in milliseconds)
 	 */
 	public static final long TIME_TO_WASTE = 1000;
+	private static final Random RANDOM = new Random();
 
 	/**
 	 * The act of eating.
@@ -75,11 +78,11 @@ public class Philosopher extends BaseThread
 	 */
 	public void talk()
 	{
-		// ...
-
+		System.out.println("Philosopher " + getTID() + " has started talking.");
+		yield();
 		saySomething();
-
-		// ...
+		yield();
+		System.out.println("Philosopher " + getTID() + " has finished talking.");
 	}
 
 	/**
@@ -102,15 +105,14 @@ public class Philosopher extends BaseThread
 			think();
 
 			/*
-			 * TODO:
 			 * A decision is made at random whether this particular
 			 * philosopher is about to say something terribly useful.
 			 */
-			if(false)
+			if(RANDOM.nextBoolean())
 			{
-				// Some monitor ops down here...
+				DiningPhilosophers.soMonitor.requestTalk();
 				talk();
-				// ...
+				DiningPhilosophers.soMonitor.endTalk();
 			}
 
 			yield();
@@ -125,11 +127,12 @@ public class Philosopher extends BaseThread
 	{
 		String[] astrPhrases =
 		{
-			"Eh, it's not easy to be a philosopher: eat, think, talk, eat...",
-			"You know, true is false and false is true if you think of it",
-			"2 + 2 = 5 for extremely large values of 2...",
-			"If thee cannot speak, thee must be silent",
-			"My number is " + getTID() + ""
+				"Eh, it's not easy to be a philosopher: eat, think, talk, eat...",
+				"You know, true is false and false is true if you think of it",
+				"2 + 2 = 5 for extremely large values of 2...",
+				"If thee cannot speak, thee must be silent",
+				"My number is " + getTID() + "",
+				"The illusion which exalts us is dearer to us than ten thousand truths."
 		};
 
 		System.out.println

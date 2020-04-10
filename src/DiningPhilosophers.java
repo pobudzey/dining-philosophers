@@ -51,7 +51,7 @@ public class DiningPhilosophers
 				try
 				{
 					iPhilosophers = Integer.parseInt(argv[0]);
-					if (iPhilosophers <= 0)
+					if (iPhilosophers < 0)
 					{
 						System.err.println("\"" + argv[0] + "\"" + " is not a positive decimal integer.");
 						System.err.println("Usage: java DiningPhilosophers [NUMBER_OF_PHILOSOPHERS]");
